@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aditya Nagpure – Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --bg:#0d0f18;
+    --bg2:#131624;
+    --bg3:#1a1e2e;
+    --card:#161929;
+    --border:#1e2540;
+    --cyan:#00d4ff;
+    --purple:#a855f7;
+    --text:#e2e8f0;
+    --muted:#8892b0;
+    --green:#22c55e;
+    --font:'Space Grotesk',sans-serif;
+    --mono:'Fira Code',monospace;
+  }
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--text);font-family:var(--font);min-height:100vh;overflow-x:hidden}
+
+  /* Sidebar */
+  .sidebar{position:fixed;left:0;top:0;width:60px;height:100vh;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;align-items:center;padding:1rem 0;z-index:100;gap:0.5rem}
+  .sidebar-logo{color:var(--cyan);font-size:20px;margin-bottom:1rem;font-family:var(--mono)}
+  .sidebar-nav{display:flex;flex-direction:column;gap:0.3rem;flex:1;align-items:center;padding-top:0.5rem}
+  .sidebar-nav a{width:40px;height:40px;display:flex;align-items:center;justify-content:center;border-radius:8px;color:var(--muted);font-size:18px;text-decoration:none;transition:all .2s}
+  .sidebar-nav a:hover,.sidebar-nav a.active{background:rgba(0,212,255,0.1);color:var(--cyan)}
+  .sidebar-nav a svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+  .sidebar-bottom{display:flex;flex-direction:column;gap:0.3rem;align-items:center;padding-bottom:0.5rem}
+
+  /* Topbar */
+  .topbar{position:fixed;left:60px;top:0;right:0;height:56px;background:rgba(13,15,24,0.95);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 2rem;z-index:99}
+  .topbar-logo{font-family:var(--mono);font-size:15px;color:var(--text)}
+  .topbar-logo span{color:var(--cyan)}
+  .topbar-nav{display:flex;gap:2rem}
+  .topbar-nav a{text-decoration:none;color:var(--muted);font-size:14px;transition:color .2s;position:relative}
+  .topbar-nav a.active{color:var(--cyan)}
+  .topbar-nav a.active::after{content:'';position:absolute;bottom:-18px;left:0;right:0;height:2px;background:var(--cyan)}
+  .topbar-nav a:hover{color:var(--text)}
+  .btn-resume{background:transparent;border:1px solid var(--cyan);color:var(--cyan);padding:0.4rem 1rem;border-radius:6px;font-size:13px;cursor:pointer;display:flex;align-items:center;gap:6px;font-family:var(--font);transition:all .2s}
+  .btn-resume:hover{background:rgba(0,212,255,0.1)}
+
+  /* Main layout */
+  .main{margin-left:60px;padding-top:56px}
+
+  /* Hero */
+  .hero{display:grid;grid-template-columns:1fr auto;gap:2rem;padding:3rem 2.5rem 2rem;min-height:calc(100vh - 56px - 120px);position:relative;overflow:hidden}
+  .hero::before{content:'';position:absolute;top:-200px;right:200px;width:600px;height:600px;background:radial-gradient(circle,rgba(0,212,255,0.06) 0%,transparent 70%);pointer-events:none}
+  .hero-left{display:flex;flex-direction:column;justify-content:center;gap:1.2rem;max-width:560px}
+  .hi{color:var(--muted);font-size:18px;font-weight:400}
+  .hi span{color:var(--purple)}
+  .name-white{font-size:clamp(48px,6vw,72px);font-weight:700;line-height:1;color:#fff}
+  .name-cyan{font-size:clamp(48px,6vw,72px);font-weight:700;line-height:1;color:var(--cyan)}
+  .subtitle{color:var(--text);font-size:18px;font-weight:400;line-height:1.4}
+  .subtitle span{color:var(--cyan);font-weight:600}
+  .desc{color:var(--muted);font-size:14px;line-height:1.7;max-width:420px}
+  .terminal-cursor{display:inline-flex;align-items:center;gap:8px;color:var(--cyan);font-family:var(--mono);font-size:14px}
+  .cursor-blink{display:inline-block;width:8px;height:16px;background:var(--cyan);animation:blink 1s infinite}
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+  .hero-actions{display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
+  .btn-primary{background:linear-gradient(135deg,var(--cyan),#0080ff);color:#000;border:none;padding:0.65rem 1.5rem;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:8px;font-family:var(--font);transition:all .2s}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,212,255,0.3)}
+  .btn-outline{background:transparent;border:1px solid var(--border);color:var(--text);padding:0.65rem 1.5rem;border-radius:8px;font-size:14px;font-weight:500;cursor:pointer;display:flex;align-items:center;gap:8px;font-family:var(--font);transition:all .2s}
+  .btn-outline:hover{border-color:var(--cyan);color:var(--cyan)}
+  .social-icons{display:flex;gap:0.5rem}
+  .social-icons a{width:36px;height:36px;border:1px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--muted);text-decoration:none;transition:all .2s}
+  .social-icons a:hover{border-color:var(--cyan);color:var(--cyan)}
+  .social-icons a svg{width:16px;height:16px;fill:currentColor}
+
+  /* Code card */
+  .code-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.5rem;font-family:var(--mono);font-size:13px;line-height:1.8;min-width:320px;max-width:380px;align-self:center;position:relative}
+  .code-card-dots{display:flex;gap:6px;margin-bottom:1rem}
+  .dot{width:12px;height:12px;border-radius:50%}
+  .dot-red{background:#ff5f57}
+  .dot-yellow{background:#ffbd2e}
+  .dot-green{background:#28ca41}
+  .code-key{color:#7dd3fc}
+  .code-str{color:#86efac}
+  .code-arr{color:#fca5a5}
+  .code-comment{color:var(--muted)}
+  .code-fn{color:#c084fc}
+  .code-cyan{color:var(--cyan)}
+  .code-white{color:#e2e8f0}
+
+  /* Avatar */
+  .hero-right{display:flex;align-items:center;justify-content:center;position:relative}
+  .avatar-ring{position:relative;width:340px;height:340px;display:flex;align-items:center;justify-content:center}
+  .avatar-ring::before{content:'';position:absolute;inset:-4px;border-radius:50%;border:2px solid var(--cyan);box-shadow:0 0 40px rgba(0,212,255,0.4),inset 0 0 40px rgba(0,212,255,0.05);animation:spin 8s linear infinite}
+  @keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+  .avatar-placeholder{width:300px;height:300px;border-radius:50%;background:linear-gradient(135deg,#1a2035,#0d1526);border:3px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:80px;color:var(--cyan);overflow:hidden;position:relative}
+  .avatar-photo{width:100%;height:100%;object-fit:cover;border-radius:50%}
+
+  /* Stats bar */
+  .stats-bar{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--border);border-bottom:1px solid var(--border);margin:0 2.5rem}
+  .stat-item{display:flex;align-items:center;gap:1rem;padding:1.5rem;border-right:1px solid var(--border)}
+  .stat-item:last-child{border-right:none}
+  .stat-icon{font-size:28px;color:var(--cyan)}
+  .stat-icon svg{width:28px;height:28px;fill:none;stroke:var(--cyan);stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+  .stat-number{font-size:24px;font-weight:700;color:#fff}
+  .stat-label{font-size:13px;color:var(--muted)}
+
+  /* Cards section */
+  .cards-section{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.5rem;padding:2rem 2.5rem}
+
+  /* About card */
+  .about-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.5rem}
+  .card-title{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:600;margin-bottom:1rem;color:var(--text)}
+  .card-title svg{width:18px;height:18px;stroke:var(--cyan);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+  .about-text{font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:1rem}
+  .terminal-mini{background:#0a0d1a;border:1px solid var(--border);border-radius:8px;padding:1rem;font-family:var(--mono);font-size:12px;line-height:1.9;margin-top:0.5rem}
+  .t-prompt{color:var(--cyan)}
+  .t-cmd{color:var(--green)}
+  .t-val{color:#86efac}
+  .t-pipe{color:var(--muted)}
+  .btn-sm{display:inline-flex;align-items:center;gap:6px;margin-top:1rem;background:transparent;border:1px solid var(--cyan);color:var(--cyan);padding:0.4rem 1rem;border-radius:6px;font-size:13px;cursor:pointer;font-family:var(--font);transition:all .2s}
+  .btn-sm:hover{background:rgba(0,212,255,0.1)}
+
+  /* Skills card */
+  .skills-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0.75rem;margin-top:0.5rem}
+  .skill-chip{display:flex;flex-direction:column;align-items:center;gap:6px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:0.75rem 0.5rem;transition:all .2s;cursor:default}
+  .skill-chip:hover{border-color:var(--cyan);background:rgba(0,212,255,0.05)}
+  .skill-icon{width:32px;height:32px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:18px}
+  .skill-name{font-size:11px;color:var(--muted);text-align:center}
+  .skills-bar{height:3px;background:var(--border);border-radius:2px;margin-top:1rem;overflow:hidden}
+  .skills-bar-fill{height:100%;background:linear-gradient(90deg,var(--cyan),var(--purple));border-radius:2px;animation:bar-anim 2s ease forwards}
+  @keyframes bar-anim{from{width:0}to{width:70%}}
+
+  /* Projects card */
+  .project-card-inner{background:var(--bg3);border:1px solid var(--border);border-radius:10px;overflow:hidden}
+  .project-img{height:80px;background:linear-gradient(135deg,#1a1040,#0d1526);display:flex;align-items:center;justify-content:center;font-size:24px;position:relative;overflow:hidden}
+  .project-img-mock{width:100%;height:100%;background:linear-gradient(135deg,#10172a,#1a2035);display:flex;align-items:center;padding:1rem;gap:0.5rem}
+  .mock-tag{font-size:10px;background:rgba(0,212,255,0.15);color:var(--cyan);padding:2px 8px;border-radius:4px;font-family:var(--mono)}
+  .mock-robot{font-size:28px}
+  .project-info{padding:0.75rem 1rem}
+  .project-title{font-size:14px;font-weight:600;margin-bottom:4px}
+  .project-desc{font-size:12px;color:var(--muted);line-height:1.5;margin-bottom:0.75rem}
+  .project-tags{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:0.75rem}
+  .ptag{font-size:10px;padding:2px 8px;border-radius:4px;font-weight:500}
+  .ptag-react{background:#1e3a5f;color:#60a5fa}
+  .ptag-node{background:#1a3d2b;color:#4ade80}
+  .ptag-mongo{background:#1e3a20;color:#86efac}
+  .ptag-openai{background:#2d2060;color:#c084fc}
+  .project-actions{display:flex;gap:0.5rem}
+  .pa-btn{flex:1;text-align:center;padding:0.4rem;border-radius:6px;font-size:12px;font-weight:500;cursor:pointer;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:4px;transition:all .2s}
+  .pa-demo{background:rgba(0,212,255,0.1);color:var(--cyan);border:1px solid rgba(0,212,255,0.2)}
+  .pa-demo:hover{background:rgba(0,212,255,0.2)}
+  .pa-gh{background:var(--card);color:var(--muted);border:1px solid var(--border)}
+  .pa-gh:hover{border-color:var(--muted)}
+  .project-dots{display:flex;justify-content:center;gap:6px;padding:0.75rem}
+  .pdot{width:8px;height:8px;border-radius:50%;background:var(--border)}
+  .pdot.active{background:var(--cyan)}
+  .projects-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem}
+  .view-all-btn{font-size:12px;color:var(--cyan);cursor:pointer;display:flex;align-items:center;gap:4px;background:transparent;border:1px solid var(--border);padding:4px 12px;border-radius:6px;font-family:var(--font);transition:all .2s}
+  .view-all-btn:hover{border-color:var(--cyan)}
+
+  /* Footer */
+  footer{border-top:1px solid var(--border);padding:1rem 2.5rem;display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--muted)}
+  footer span.heart{color:#ef4444}
+  footer span.tech{color:var(--cyan)}
+
+  /* Skill icons using letters/color */
+  .si-html{background:#e34c26;color:#fff;font-size:11px;font-weight:700;font-family:var(--mono)}
+  .si-css{background:#264de4;color:#fff;font-size:11px;font-weight:700;font-family:var(--mono)}
+  .si-js{background:#f7df1e;color:#000;font-size:11px;font-weight:700;font-family:var(--mono)}
+  .si-react{background:#20232a;color:#61dafb;font-size:14px}
+  .si-python{background:#3776ab;color:#ffd343;font-size:13px;font-weight:700;font-family:var(--mono)}
+  .si-java{background:#007396;color:#fff;font-size:11px;font-weight:700;font-family:var(--mono)}
+  .si-flask{background:#000;color:#fff;font-size:12px;font-weight:700;font-family:var(--mono)}
+  .si-git{background:#f05032;color:#fff;font-size:13px;font-weight:700}
+  .si-github{background:#24292e;color:#fff;font-size:14px}
+  .si-tailwind{background:#06b6d4;color:#fff;font-size:10px;font-weight:700;font-family:var(--mono)}
+  .si-mongo{background:#47a248;color:#fff;font-size:11px;font-weight:700;font-family:var(--mono)}
+  .si-mysql{background:#00618a;color:#fff;font-size:9px;font-weight:700;font-family:var(--mono)}
+
+  /* Animations */
+  .fade-in{animation:fadeIn 0.8s ease forwards}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+  .hero-left>*{opacity:0;animation:fadeIn 0.6s ease forwards}
+  .hero-left>*:nth-child(1){animation-delay:0.1s}
+  .hero-left>*:nth-child(2){animation-delay:0.2s}
+  .hero-left>*:nth-child(3){animation-delay:0.3s}
+  .hero-left>*:nth-child(4){animation-delay:0.4s}
+  .hero-left>*:nth-child(5){animation-delay:0.5s}
+  .hero-left>*:nth-child(6){animation-delay:0.6s}
+  .hero-left>*:nth-child(7){animation-delay:0.7s}
+
+  @media(max-width:900px){
+    .hero{grid-template-columns:1fr;padding:2rem 1rem}
+    .hero-right{display:none}
+    .cards-section{grid-template-columns:1fr}
+    .stats-bar{grid-template-columns:repeat(2,1fr)}
+    .topbar-nav{display:none}
+    .code-card{display:none}
+  }
+</style>
+</head>
+<body>
+
+<!-- Sidebar -->
+<aside class="sidebar">
+  <div class="sidebar-logo">&lt;/&gt;</div>
+  <nav class="sidebar-nav">
+    <a href="#" class="active" title="Home">
+      <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    </a>
+    <a href="#about" title="About">
+      <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    </a>
+    <a href="#skills" title="Skills">
+      <svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+    </a>
+    <a href="#projects" title="Projects">
+      <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/></svg>
+    </a>
+    <a href="#education" title="Education">
+      <svg viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+    </a>
+  </nav>
+  <div class="sidebar-bottom">
+    <a href="https://github.com/Aditya2006-sketch" target="_blank" title="GitHub">
+      <svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
+    </a>
+    <a href="https://www.linkedin.com/in/adityanagpure/" target="_blank" title="LinkedIn">
+      <svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+    </a>
+    <a href="#" title="Instagram">
+      <svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+    </a>
+  </div>
+</aside>
+
+<!-- Topbar -->
+<header class="topbar">
+  <div class="topbar-logo">&lt;&gt; <span>Aditya</span>.dev</div>
+  <nav class="topbar-nav">
+    <a href="#" class="active">Home</a>
+    <a href="#about">About</a>
+    <a href="#skills">Skills</a>
+    <a href="#projects">Projects</a>
+    <a href="#education">Education</a>
+    <a href="https://github.com/Aditya2006-sketch" target="_blank">GitHub</a>
+    <a href="#contact">Contact</a>
+  </nav>
+  <button class="btn-resume">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+    Download Resume
+  </button>
+</header>
+
+<div class="main">
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-left">
+      <div class="hi"><span>Hi, I'm</span></div>
+      <div>
+        <div class="name-white">Aditya</div>
+        <div class="name-cyan">Nagpure</div>
+      </div>
+      <div class="subtitle">Computer Technology Student<br>&amp; Aspiring <span>Full Stack Developer</span></div>
+      <p class="desc">Passionate about building impactful web applications and AI-powered solutions that solve real-world problems.</p>
+      <div class="terminal-cursor">&gt; <span class="cursor-blink"></span></div>
+      <div class="hero-actions">
+        <button class="btn-primary">View My Work &nbsp;→</button>
+        <button class="btn-outline">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          Contact Me
+        </button>
+        <div class="social-icons">
+          <a href="https://github.com/Aditya2006-sketch" target="_blank" title="GitHub">
+            <svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <a href="https://www.linkedin.com/in/adityanagpure/" target="_blank" title="LinkedIn">
+            <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><rect x="2" y="9" width="4" height="12" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="4" cy="4" r="2" stroke="currentColor" fill="none" stroke-width="2"/></svg>
+          </a>
+          <a href="#" title="Email">
+            <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><polyline points="22,6 12,13 2,6" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Code Card -->
+    <div style="display:flex;flex-direction:column;gap:1.5rem;align-items:flex-end;justify-content:center">
+      <div class="code-card">
+        <div class="code-card-dots"><div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div></div>
+        <div><span class="code-key">const</span> <span class="code-cyan">aditya</span> <span class="code-white">= {</span></div>
+        <div>&nbsp;&nbsp;<span class="code-key">name</span><span class="code-white">:</span> <span class="code-str">"Aditya Nagpure"</span><span class="code-white">,</span></div>
+        <div>&nbsp;&nbsp;<span class="code-key">role</span><span class="code-white">:</span> <span class="code-str">"Developer"</span><span class="code-white">,</span></div>
+        <div>&nbsp;&nbsp;<span class="code-key">skills</span><span class="code-white">:</span> <span class="code-arr">["React", "Python",</span></div>
+        <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-arr">"Flask", "Java"],</span></div>
+        <div>&nbsp;&nbsp;<span class="code-key">passion</span><span class="code-white">:</span> <span class="code-str">"Building things</span></div>
+        <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-str">&nbsp;that live on the web"</span><span class="code-white">,</span></div>
+        <div>&nbsp;&nbsp;<span class="code-key">goal</span><span class="code-white">:</span> <span class="code-str">"Build AI products</span></div>
+        <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-str">&nbsp;and startups"</span></div>
+        <div><span class="code-white">};</span></div>
+        <br>
+        <div><span class="code-comment">&gt;</span> <span class="code-fn">console</span><span class="code-white">.</span><span class="code-cyan">log</span><span class="code-white">(aditya.goal);</span></div>
+        <div><span class="code-comment">// Build AI products and startups</span></div>
+        <div><span class="code-cyan">&gt;</span> <span class="cursor-blink" style="width:6px;height:12px;display:inline-block;background:var(--cyan);animation:blink 1s infinite"></span></div>
+      </div>
+
+      <!-- Avatar ring -->
+      <div class="avatar-ring">
+        <div class="avatar-placeholder">
+          <img src="https://avatars.githubusercontent.com/u/197363267?v=4" alt="Aditya Nagpure" class="avatar-photo">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <div class="stats-bar">
+    <div class="stat-item">
+      <div class="stat-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+      </div>
+      <div>
+        <div class="stat-number">10+</div>
+        <div class="stat-label">Projects Completed</div>
+      </div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-icon">
+        <svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+      </div>
+      <div>
+        <div class="stat-number">3+</div>
+        <div class="stat-label">Years Learning</div>
+      </div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-icon">
+        <svg viewBox="0 0 24 24"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+      </div>
+      <div>
+        <div class="stat-number">1000+</div>
+        <div class="stat-label">Lines of Code</div>
+      </div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-icon">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>
+      </div>
+      <div>
+        <div class="stat-number">5+</div>
+        <div class="stat-label">Technologies Mastered</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3-column cards -->
+  <div class="cards-section" id="about">
+    <!-- About Card -->
+    <div class="about-card">
+      <div class="card-title">
+        <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        About Me
+      </div>
+      <p class="about-text">I'm a Computer Technology student passionate about full stack development, AI, and building products that create value.</p>
+      <p class="about-text">I love turning ideas into real-world applications and constantly learning new technologies.</p>
+      <div class="terminal-mini">
+        <div><span class="t-prompt">&gt;</span> <span class="t-cmd">whoami</span></div>
+        <div><span class="t-val">Aditya Nagpure</span></div>
+        <div><span class="t-prompt">&gt;</span> <span class="t-cmd">status</span></div>
+        <div><span class="t-val">Learning</span> <span class="t-pipe">|</span> <span class="t-val">Building</span> <span class="t-pipe">|</span> <span class="t-val">Growing</span></div>
+        <div><span class="t-prompt">&gt;</span> <span class="t-cmd">goal</span></div>
+        <div><span class="t-val">Build innovative products and make an impact.</span></div>
+        <div><span class="t-prompt">&gt;</span> <span class="cursor-blink" style="width:6px;height:11px;background:var(--cyan);display:inline-block;animation:blink 1s infinite"></span></div>
+      </div>
+      <button class="btn-sm">Read More &nbsp;→</button>
+    </div>
+
+    <!-- Skills Card -->
+    <div class="about-card" id="skills">
+      <div class="card-title">
+        <svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        Skills
+      </div>
+      <div class="skills-grid">
+        <div class="skill-chip">
+          <div class="skill-icon si-html">H5</div>
+          <div class="skill-name">HTML5</div>
+        </div>
+        <div class="skill-chip">
+          <div class="skill-icon si-css">CSS</div>
+          <div class="skill-name">CSS3</div>
+        </div>
+        <div class="skill-chip">
+          <div class="skill-icon si-js">JS</div>
+          <div class="skill-name">JavaScript</div>
+        </div>
+        <div class="skill-chip">
+          <div class="skill-icon si-react">⚛</div>
+          <div class="skill-name">React</div>
+        </div>
+        <div class="skill-chip">
+          <div class="skill-icon si-python">Py</div>
+          <div class="skill-name">Python</div>
+        </div>
+        <div class="skill-chip">
+          <div class="skill-icon si-java">☕</div>
+          <div class="skill-name">Java</div>
+        </div>
+        <div class="skill-chip">
+          <div class="skill-icon si-flask">Fl</div>
+          <div class="skill-name">Flask</div>
+        </div>
+        <div class="skill-chip">
+          <div class="skill-icon si-git">Git</div>
+          <div class="skill-name">Git</div>
+        </div>
+        <div class="skill-chip">
+          <div class="skill-icon si-github">⌥</div>
+          <div class="skill-name">GitHub</div>
+        </div>
+        <div class="skill-chip">
+          <div class="skill-icon si-tailwind">Tw</div>
+          <div class="skill-name">Tailwind CSS</div>
+        </div>
+        <div class="skill-chip">
+          <div class="skill-icon si-mongo">Mg</div>
+          <div class="skill-name">MongoDB</div>
+        </div>
+        <div class="skill-chip">
+          <div class="skill-icon si-mysql">SQL</div>
+          <div class="skill-name">MySQL</div>
+        </div>
+      </div>
+      <div class="skills-bar"><div class="skills-bar-fill"></div></div>
+    </div>
+
+    <!-- Projects Card -->
+    <div class="about-card" id="projects">
+      <div class="projects-header">
+        <div class="card-title" style="margin-bottom:0">
+          <svg viewBox="0 0 24 24"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>
+          Featured Projects
+        </div>
+        <button class="view-all-btn">View All &nbsp;→</button>
+      </div>
+
+      <div class="project-card-inner">
+        <div class="project-img">
+          <div class="project-img-mock">
+            <div>
+              <div style="font-size:11px;color:var(--cyan);font-family:var(--mono);font-weight:600;margin-bottom:4px">AI Friend</div>
+              <div style="font-size:10px;color:var(--purple);font-family:var(--mono)">Website</div>
+            </div>
+            <div style="margin-left:auto;font-size:32px">🤖</div>
+          </div>
+        </div>
+        <div class="project-info">
+          <div class="project-title">AI Friend Website</div>
+          <p class="project-desc">An AI-powered companion web app that chats, helps, and supports users 24/7 with smart responses.</p>
+          <div class="project-tags">
+            <span class="ptag ptag-react">React</span>
+            <span class="ptag ptag-node">Node.js</span>
+            <span class="ptag ptag-mongo">MongoDB</span>
+            <span class="ptag ptag-openai">OpenAI</span>
+          </div>
+          <div class="project-actions">
+            <a href="#" class="pa-btn pa-demo">Live Demo ↗</a>
+            <a href="https://github.com/Aditya2006-sketch" target="_blank" class="pa-btn pa-gh">GitHub ⌥</a>
+          </div>
+        </div>
+      </div>
+      <div class="project-dots">
+        <div class="pdot active"></div>
+        <div class="pdot"></div>
+        <div class="pdot"></div>
+        <div class="pdot"></div>
+        <div class="pdot"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <span>© 2024 Aditya Nagpure. All rights reserved.</span>
+    <span>Built with <span class="heart">❤</span> using <span class="tech">React &amp; Tailwind CSS</span></span>
+  </footer>
+</div>
+
+<script>
+  // Highlight active nav link on scroll
+  const sections = ['about','skills','projects','education'];
+  const topLinks = document.querySelectorAll('.topbar-nav a');
+  const sideLinks = document.querySelectorAll('.sidebar-nav a');
+  window.addEventListener('scroll', () => {
+    let cur = '';
+    sections.forEach(id => {
+      const el = document.getElementById(id);
+      if(el && window.scrollY >= el.offsetTop - 100) cur = id;
+    });
+    topLinks.forEach(a => {
+      a.classList.toggle('active', a.getAttribute('href') === (cur ? '#'+cur : '#'));
+    });
+  });
+
+  // Animated number counter
+  document.querySelectorAll('.stat-number').forEach(el => {
+    const target = parseInt(el.textContent);
+    let count = 0;
+    const step = Math.ceil(target / 40);
+    const timer = setInterval(() => {
+      count = Math.min(count + step, target);
+      el.textContent = count + '+';
+      if(count >= target) clearInterval(timer);
+    }, 30);
+  });
+</script>
+</body>
+</html>
